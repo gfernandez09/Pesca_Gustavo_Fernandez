@@ -21,7 +21,6 @@ public class Pesca {
     double leedorpescaD;
     double pesoMinD;
     double pesoMaxD;
-    double pesopez = Math.random() % ((pesoMaxD + pesoMinD) / 2);
 
     private void altaUsuari(){
         System.out.println("Indique Nombre de Usuario: ");
@@ -72,18 +71,18 @@ public class Pesca {
             e.printStackTrace();
         }
     }
-    private void pescarPesquera() throws IOException {
+    private boolean pescarPesquera() throws IOException {
         System.out.println("Indique Nombre de Usuario: ");
         Scanner sc = new Scanner(System.in);
         String usuario = sc.nextLine();
         FileReader fr=new FileReader("src\\archivos\\usuarios.txt");
         try{
+            FileWriter writer = new FileWriter("src\\archivos\\registre.txt",true);
             if(buscadorUsuario(usuario)){
                 menupesquera();
                 Scanner mp = new Scanner(System.in);
                 String opcion = mp.nextLine();
                 boolean separador = true;
-                boolean exit = true;
                 switch(opcion){
                     case "1":
                         reader = new FileReader("src\\archivos\\florida.txt");
@@ -102,7 +101,7 @@ public class Pesca {
                 }
                 double valorAleatorio = Math.random();
                 int i = reader.read();
-                while(exit){
+                while(true){
                     while(i!=-1){
                         while(separador){
                             if(i != 35){
@@ -113,29 +112,33 @@ public class Pesca {
                                     leedorpesca += (char)i;
                                 }
                                 if(contadorhash == 3){
-                                    if(leedorpescaD >= valorAleatorio){
+                                    leedorpescaD = Double.parseDouble(leedorpesca);
+                                    if(leedorpescaD > valorAleatorio){
                                         registroporcentaje = leedorpescaD;
                                     }
-                                    leedorpesca="";
                                     pesoMin += (char)i;
                                 }
                                 if(contadorhash == 4){
+                                    pesoMinD = Double.parseDouble(pesoMin);
                                     pesoMax += (char)i;
                                 }
                                 if(contadorhash == 5){
+                                    pesoMaxD = Double.parseDouble(pesoMax);
                                     if(registroporcentaje != 0){
-                                        FileWriter writer = new FileWriter("src\\archivos\\registre.txt");
-                                        writer.write("#" + dateFormat.format(date) + "#" + dia +"/"+ mes +"/" + año + "/" + "#" + nompescat +"#" + usuario + "#" + pesopez + "#");
-                                        System.out.println("#" + dateFormat.format(date) + "#" + dia +"/"+ mes +"/" + año + "/" + "#" + nompescat +"#" + usuario + "#" + pesopez + "#");
-                                        exit = false;
+                                        double pesopez = (Math.random() * ((pesoMaxD - pesoMinD) + 1)) + pesoMinD;
+                                        writer.write("#" + dia +"/"+ mes +"/" + año + "#" + nompescat +"#" + usuario + "#" + pesopez + "#\n");
+                                        System.out.println("#" + dia +"/"+ mes +"/" + año + "#" + nompescat +"#" + usuario + "#" + pesopez + "#");
+                                        writer.close();
+                                        return false;
                                     }
                                     separador = false;
                                     contadorhash = 0;
                                     nompescat="";
+                                    pesoMax="";
+                                    pesoMin="";
+                                    leedorpesca="";
                                 }
-                                leedorpescaD = Double.parseDouble(leedorpesca);
-                                pesoMinD = Double.parseDouble(pesoMin);
-                                pesoMaxD = Double.parseDouble(pesoMax);
+
                             }else{
                                 contadorhash++;
                             }
@@ -153,6 +156,7 @@ public class Pesca {
         }catch (Exception e){
             e.printStackTrace();
         }
+        return false;
     }
     private void estatsUsuari() {
         System.out.println("Tal");
