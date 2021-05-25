@@ -1,17 +1,14 @@
 import java.io.*;
-import java.text.*;
 import java.util.*;
 
 public class Pesca {
-    String concatenasion;
+    String line;
     FileWriter fileWriter;
     String leedorpesca = "";
     String nompescat = "";
     String pesoMax = "";
     String pesoMin = "";
     Calendar fecha = new GregorianCalendar();
-    DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-    Date date = new Date();
     int año = fecha.get(Calendar.YEAR);
     int mes = fecha.get(Calendar.MONTH);
     int dia = fecha.get(Calendar.DAY_OF_MONTH);
@@ -47,16 +44,16 @@ public class Pesca {
                 FileReader fr = new FileReader("src\\archivos\\usuarios.txt");
                 int i = fr.read();
                 String conexion = "";
-                String linea = "";
+                String line = "";
                 while (i != -1) {
-                    linea += (char) i;
-                    if (linea.equals("#" + usuario + "#\n")) {
-                        linea = "";
-                        conexion += linea;
+                    line += (char) i;
+                    if (line.equals("#" + usuario + "#\n")) {
+                        line = "";
+                        conexion += line;
                     }
                     if (i == '\n') {
-                        conexion += linea;
-                        linea = "";
+                        conexion += line;
+                        line = "";
                     }
                     i = fr.read();
                 }
@@ -77,40 +74,43 @@ public class Pesca {
         Scanner sc = new Scanner(System.in);
         String usuario = sc.nextLine();
         FileReader reader;
-        if (buscadorUsuario(usuario)) {
-            System.out.println("En quina pesca desitjaries pescar? ");
-            System.out.println("Opcions disponibles: ");
-            System.out.println("1) florida.txt");
-            System.out.println("2) mediterrania.txt");
-            System.out.println("3) africa.txt");
-            System.out.println("4) japo.txt");
-            System.out.println("OPCIÓ?");
-            Scanner mp = new Scanner(System.in);
-            String opcion = mp.nextLine();
-            boolean separador = true;
-            switch (opcion) {
-                case "1":
-                    reader = new FileReader("src\\archivos\\florida.txt");
-                    break;
-                case "2":
-                    reader = new FileReader("src\\archivos\\mediterrania.txt");
-                    break;
-                case "3":
-                    reader = new FileReader("src\\archivos\\africa.txt");
-                    break;
-                case "4":
-                    reader = new FileReader("src\\archivos\\japo.txt");
-                    break;
-                default:
-                    throw new Exception("ERROR-> Opció no disponible");
+        try{
+            if (buscadorUsuario(usuario)) {
+                System.out.println("En quina pesca desitjaries pescar? ");
+                System.out.println("Opcions disponibles: ");
+                System.out.println("1) florida.txt | 2) mediterrania.txt | 3) africa.txt |4 ) japo.txt");
+                System.out.println("OPCIÓ?");
+                Scanner mp = new Scanner(System.in);
+                String opcion = mp.nextLine();
+                boolean separador = true;
+                switch (opcion) {
+                    case "1":
+                        reader = new FileReader("src\\archivos\\florida.txt");
+                        break;
+                    case "2":
+                        reader = new FileReader("src\\archivos\\mediterrania.txt");
+                        break;
+                    case "3":
+                        reader = new FileReader("src\\archivos\\africa.txt");
+                        break;
+                    case "4":
+                        reader = new FileReader("src\\archivos\\japo.txt");
+                        break;
+                    default:
+                        throw new Exception("ERROR-> Opció no disponible");
+                }
+                pescarPesquera(reader,separador,usuario);
+            }else{
+                throw new Exception("L'Usuari no está registrat");
             }
-            pescarPesquera(reader,separador,usuario);
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 
     private void pescarPesquera(FileReader reader, boolean separador, String usuario) {
         try {
-            double valorAleatorio = 0.06;
+            double valorAleatorio = Math.random();
             int i = reader.read();
             boolean banderita = true;
                 while (banderita && i != -1) {
@@ -137,8 +137,9 @@ public class Pesca {
                                 pesoMaxD = Double.parseDouble(pesoMax);
                                 if (registroporcentaje != 0) {
                                     FileWriter writer = new FileWriter("src\\archivos\\registre.txt", true);
-                                    double pesopez = (Math.random() * ((pesoMaxD - pesoMinD) + 1)) + pesoMinD;
-                                    writer.write("#" + dia + "/" + mes + "/" + año + "#" + nompescat + "#" + usuario + "#" + pesopez + "#\n");
+                                    double pesopez = (Math.random() * ((pesoMaxD - pesoMinD))) + pesoMinD;
+                                    String pesoPezS = String.format("%.2f",pesopez);
+                                    writer.write("#" + dia + "/" + mes + "/" + año + "#" + nompescat + "#" + usuario + "#" + pesoPezS + "#\n");
                                     writer.close();
                                     banderita = false;
                                 }
@@ -151,7 +152,6 @@ public class Pesca {
                                 leedorpescaD = 0;
                                 pesoMinD = 0;
                                 pesoMaxD = 0;
-
                             }
                         } else {
                             contadorhash++;
@@ -218,21 +218,15 @@ public class Pesca {
     private boolean buscadorUsuario(String usuario) throws IOException {
         FileReader fr = new FileReader("src\\archivos\\usuarios.txt");
         int i = fr.read();
-        boolean separador = true;
         while (i != -1) {
-            while (separador) {
-                if (i != 35 && i != -1) {
-                    concatenasion = concatenasion + (char) i;
-                    if (usuario.equals(concatenasion)) {
-                        return true;
-                    }
-                } else {
-                    separador = false;
-                }
-                i = fr.read();
+            line += (char) i;
+            if (line.equals("#" + usuario + "#\n")) {
+                return true;
             }
-            separador = true;
-            concatenasion = "";
+            if (i == '\n') {
+                line = "";
+            }
+            i = fr.read();
         }
         fr.close();
         return false;
