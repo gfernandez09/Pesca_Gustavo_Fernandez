@@ -5,7 +5,6 @@ import java.util.*;
 public class Pesca {
     String concatenasion;
     FileWriter fileWriter;
-    FileReader reader;
     String leedorpesca = "";
     String nompescat = "";
     String pesoMax = "";
@@ -22,23 +21,24 @@ public class Pesca {
     double pesoMinD;
     double pesoMaxD;
 
-    private void altaUsuari(){
+    private void altaUsuari() {
         System.out.println("Indique Nombre de Usuario: ");
         Scanner sc = new Scanner(System.in);
         String usuario = sc.nextLine();
         try {
             fileWriter = new FileWriter("src\\archivos\\usuarios.txt", true);
-            if (!buscadorUsuario(usuario)){
+            if (!buscadorUsuario(usuario)) {
                 fileWriter.write("#" + usuario + "#\n");
                 fileWriter.close();
-            }else{
-                throw new Exception("L'Usuari ja està registrat!");
+            } else {
+                throw new Exception("ERROR-> L'Usuari ja està registrat!");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    private void deleteUsuari(){
+
+    private void deleteUsuari() {
         System.out.println("Indique Nombre de Usuario: ");
         Scanner du = new Scanner(System.in);
         String usuario = du.nextLine();
@@ -65,108 +65,118 @@ public class Pesca {
                 fw.close();
                 fr.close();
             } else {
-                throw new Exception("L'Usuari no està registrat!");
+                throw new Exception("ERROR-> L'Usuari no està registrat!");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    private boolean pescarPesquera() throws IOException {
+
+    private void selectorPesca() throws Exception {
         System.out.println("Indique Nombre de Usuario: ");
         Scanner sc = new Scanner(System.in);
         String usuario = sc.nextLine();
-        FileReader fr=new FileReader("src\\archivos\\usuarios.txt");
-        try{
-            FileWriter writer = new FileWriter("src\\archivos\\registre.txt",true);
-            if(buscadorUsuario(usuario)){
-                menupesquera();
-                Scanner mp = new Scanner(System.in);
-                String opcion = mp.nextLine();
-                boolean separador = true;
-                switch(opcion){
-                    case "1":
-                        reader = new FileReader("src\\archivos\\florida.txt");
-                        break;
-                    case "2":
-                        reader = new FileReader("src\\archivos\\mediterrania.txt");
-                        break;
-                    case "3":
-                        reader = new FileReader("src\\archivos\\africa.txt");
-                        break;
-                    case "4":
-                        reader = new FileReader("src\\archivos\\japo.txt");
-                        break;
-                    default:
-                        System.out.println("Opció no vàlida.");
-                }
-                double valorAleatorio = Math.random();
-                int i = reader.read();
-                while(true){
-                    while(i!=-1){
-                        while(separador){
-                            if(i != 35){
-                                if (contadorhash == 1){
-                                    nompescat += (char)i;
-                                }
-                                if(contadorhash == 2){
-                                    leedorpesca += (char)i;
-                                }
-                                if(contadorhash == 3){
-                                    leedorpescaD = Double.parseDouble(leedorpesca);
-                                    if(leedorpescaD > valorAleatorio){
-                                        registroporcentaje = leedorpescaD;
-                                    }
-                                    pesoMin += (char)i;
-                                }
-                                if(contadorhash == 4){
-                                    pesoMinD = Double.parseDouble(pesoMin);
-                                    pesoMax += (char)i;
-                                }
-                                if(contadorhash == 5){
-                                    pesoMaxD = Double.parseDouble(pesoMax);
-                                    if(registroporcentaje != 0){
-                                        double pesopez = (Math.random() * ((pesoMaxD - pesoMinD) + 1)) + pesoMinD;
-                                        writer.write("#" + dia +"/"+ mes +"/" + año + "#" + nompescat +"#" + usuario + "#" + pesopez + "#\n");
-                                        System.out.println("#" + dia +"/"+ mes +"/" + año + "#" + nompescat +"#" + usuario + "#" + pesopez + "#");
-                                        writer.close();
-                                        return false;
-                                    }
-                                    separador = false;
-                                    contadorhash = 0;
-                                    nompescat="";
-                                    pesoMax="";
-                                    pesoMin="";
-                                    leedorpesca="";
-                                }
-
-                            }else{
-                                contadorhash++;
-                            }
-                            separador = false;
-                        }
-                        separador = true;
-                        i = reader.read();
-                    }
-                    fr.close();
-                }
-
-            }else{
-                throw new Exception("L'Usuari no està donat d'alta");
+        FileReader reader;
+        if (buscadorUsuario(usuario)) {
+            System.out.println("En quina pesca desitjaries pescar? ");
+            System.out.println("Opcions disponibles: ");
+            System.out.println("1) florida.txt");
+            System.out.println("2) mediterrania.txt");
+            System.out.println("3) africa.txt");
+            System.out.println("4) japo.txt");
+            System.out.println("OPCIÓ?");
+            Scanner mp = new Scanner(System.in);
+            String opcion = mp.nextLine();
+            boolean separador = true;
+            switch (opcion) {
+                case "1":
+                    reader = new FileReader("src\\archivos\\florida.txt");
+                    break;
+                case "2":
+                    reader = new FileReader("src\\archivos\\mediterrania.txt");
+                    break;
+                case "3":
+                    reader = new FileReader("src\\archivos\\africa.txt");
+                    break;
+                case "4":
+                    reader = new FileReader("src\\archivos\\japo.txt");
+                    break;
+                default:
+                    throw new Exception("ERROR-> Opció no disponible");
             }
-        }catch (Exception e){
+            pescarPesquera(reader,separador,usuario);
+        }
+    }
+
+    private void pescarPesquera(FileReader reader, boolean separador, String usuario) {
+        try {
+            double valorAleatorio = 0.06;
+            int i = reader.read();
+            boolean banderita = true;
+                while (banderita && i != -1) {
+                    while (separador) {
+                        if (i != 35) {
+                            if (contadorhash == 1) {
+                                nompescat += (char) i;
+                            }
+                            if (contadorhash == 2) {
+                                leedorpesca += (char) i;
+                            }
+                            if (contadorhash == 3) {
+                                leedorpescaD = Double.parseDouble(leedorpesca);
+                                if (leedorpescaD > valorAleatorio) {
+                                    registroporcentaje = leedorpescaD;
+                                }
+                                pesoMin += (char) i;
+                            }
+                            if (contadorhash == 4) {
+                                pesoMinD = Double.parseDouble(pesoMin);
+                                pesoMax += (char) i;
+                            }
+                            if (contadorhash == 5) {
+                                pesoMaxD = Double.parseDouble(pesoMax);
+                                if (registroporcentaje != 0) {
+                                    FileWriter writer = new FileWriter("src\\archivos\\registre.txt", true);
+                                    double pesopez = (Math.random() * ((pesoMaxD - pesoMinD) + 1)) + pesoMinD;
+                                    writer.write("#" + dia + "/" + mes + "/" + año + "#" + nompescat + "#" + usuario + "#" + pesopez + "#\n");
+                                    writer.close();
+                                    banderita = false;
+                                }
+                                separador = false;
+                                contadorhash = 0;
+                                nompescat = "";
+                                pesoMax = "";
+                                pesoMin = "";
+                                leedorpesca = "";
+                                leedorpescaD = 0;
+                                pesoMinD = 0;
+                                pesoMaxD = 0;
+
+                            }
+                        } else {
+                            contadorhash++;
+                        }
+                        separador = false;
+                    }
+                    separador = true;
+                    i = reader.read();
+                }
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return false;
     }
+
     private void estatsUsuari() {
         System.out.println("Tal");
     }
+
     private void estatsGlobals() {
         System.out.println("ESTAS");
     }
-    public void menu() throws IOException{
+
+    public void menu() throws Exception {
         boolean bandera = true;
-        while (bandera){
+        while (bandera) {
             System.out.println("**************************************************");
             System.out.println("* Benvinguts a el programa de pesca *");
             System.out.println("* Menú principal *");
@@ -181,7 +191,7 @@ public class Pesca {
             System.out.println("OPCIÓ?");
             Scanner sc = new Scanner(System.in);
             String opcionElegida = sc.nextLine();
-            switch (opcionElegida){
+            switch (opcionElegida) {
                 case "1":
                     altaUsuari();
                     break;
@@ -189,7 +199,7 @@ public class Pesca {
                     deleteUsuari();
                     break;
                 case "3":
-                    pescarPesquera();
+                    selectorPesca();
                     break;
                 case "4":
                     estatsUsuari();
@@ -205,33 +215,24 @@ public class Pesca {
             }
         }
     }
-    private void menupesquera(){
-        System.out.println("En quina pesca desitjaries pescar? ");
-        System.out.println("Opcions disponibles: ");
-        System.out.println("1) florida.txt");
-        System.out.println("2) mediterrania.txt");
-        System.out.println("3) africa.txt");
-        System.out.println("4) japo.txt");
-        System.out.println("OPCIÓ?");
-    }
     private boolean buscadorUsuario(String usuario) throws IOException {
-        FileReader fr=new FileReader("src\\archivos\\usuarios.txt");
+        FileReader fr = new FileReader("src\\archivos\\usuarios.txt");
         int i = fr.read();
         boolean separador = true;
-        while (i!=-1){
-            while(separador){
-                if(i!=35 && i!=-1){
-                    concatenasion = concatenasion + (char)i;
-                    if(usuario.equals(concatenasion)){
+        while (i != -1) {
+            while (separador) {
+                if (i != 35 && i != -1) {
+                    concatenasion = concatenasion + (char) i;
+                    if (usuario.equals(concatenasion)) {
                         return true;
                     }
-                }else{
+                } else {
                     separador = false;
                 }
                 i = fr.read();
             }
             separador = true;
-            concatenasion="";
+            concatenasion = "";
         }
         fr.close();
         return false;
