@@ -1,5 +1,46 @@
-#25/4/2021#Cap Roig#genis#3.006023656279573#
-#25/4/2021#Perca americana#juanes#1.3182391977650905#
-#25/4/2021#Anfós#genis#21.491048821946137#
-#25/4/2021#Ballena#isma#11.642937392568728#
-#25/4/2021#Tiburón cabeza de pala#joshua#7.081880515479426#
+#30/4/2021#Sardina#juanma#12.36#
+#30/4/2021#Sardina#juanma#1.68#
+#30/4/2021#Pegell#gusito#2.16#
+#30/4/2021#Pepito#joshua#0.98#
+#30/4/2021#Pedaç#juanma#1.42#
+#30/4/2021#Pargo criollo#gusito#0.8#
+#30/4/2021#Doncella#gusito#0.32#
+#30/4/2021#Pargo de cola amarilla#isma#1.14#
+#30/4/2021#Vaca#isma#0.36#
+#30/4/2021#Vaca#joshua#0.16#
+#31/4/2021#Bacalao#gusito#0.7#
+#31/4/2021#Doncella#gusito#0.28#
+#31/4/2021#Vaca#juanes#0.27#
+#31/4/2021#Pargo criollo#juanes#1.36#
+#31/4/2021#Vaca#juanes#0.13#
+#31/4/2021#Nemo#juanes#1.9#
+#31/4/2021#Bacalao#gusito#1.17#
+#31/4/2021#Pargo criollo#gusito#1.42#
+#31/4/2021#Vaca#gusito#0.37#
+#31/4/2021#Bacalao#gusito#2.78#
+#31/4/2021#Perca americana#adan#1.14#
+#31/4/2021#Pegell#adan#2.0#
+#31/4/2021#Sardina#adan#8.46#
+#31/4/2021#Pargo de cola amarilla#adan#1.57#
+#31/4/2021#Vaca#adan#0.23#
+#31/4/2021#Atun#adan#1.13#
+#31/4/2021#Perca americana#lluc#0.82#
+#31/4/2021#Pargo criollo#lluc#1.2#
+#31/4/2021#Serrà#lluc#0.24#
+#31/4/2021#Totodildo#lluc#1.32#
+#31/4/2021#Sargo chopa#lluc#2.96#
+#31/4/2021#Vaca#lluc#0.38#
+#31/4/2021#Dori#lluc#0.82#
+#31/4/2021#Totodildo#lluc#3.69#
+#31/4/2021#Mero de Nassau#lluc#1.7#
+#31/4/2021#Sargo chopa#miguel#2.93#
+#31/4/2021#Nemo#miguel#1.09#
+#31/4/2021#Aranya de cap negre#miguel#1.96#
+#31/4/2021#Pez león#miguel#0.59#
+#31/4/2021#Vaca#miguel#0.32#
+#31/4/2021#Nemo#miguel#1.7#
+#31/4/2021#Pargo criollo#miguel#1.31#
+#31/4/2021#Nemo#lluc#1.89#
+#31/4/2021#Pargo criollo#lluc#0.51#
+#31/4/2021#Cap Roig#lluc#3.63#
+#31/4/2021#Pargo criollo#lluc#0.29#
